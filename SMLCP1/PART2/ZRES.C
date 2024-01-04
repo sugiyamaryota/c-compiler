@@ -15,3 +15,12 @@
 #define STARTTAB Symtab
 #define ENDTAB (STARTTAB + ((NUMENT - 1)*SYMREC))
 #define SYMSIZE (NUMENT * SYMREC)
+
+#define LIBNAME 0
+#define MODULE 17
+#define LIBREC 18
+
+#define LIBENT 500
+#define STARTLIB Libtab
+#define ENDLIB (STARTLIB + ((LIBENT-1)*LIBREC))
+#define LIBSIZE (LIBENT*LIBREC)
