@@ -24,3 +24,13 @@
 #define STARTLIB Libtab
 #define ENDLIB (STARTLIB + ((LIBENT-1)*LIBREC))
 #define LIBSIZE (LIBENT*LIBREC)
+
+#define IXNAME 0
+#define IXTYPE 17
+#define IXREC  18
+
+#define IXENT 600
+#define IXSIZE (IXENT*IXREC)
+
+
+#define NAMEMAX 16
