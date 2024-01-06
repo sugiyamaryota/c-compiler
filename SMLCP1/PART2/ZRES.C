@@ -34,3 +34,12 @@
 
 
 #define NAMEMAX 16
+
+char *Symtab;
+char *Libtab;
+char *Index;
+int *Module;
+int *Objptr;
+int *Rec;
+int *Off;
+int Nmod;
