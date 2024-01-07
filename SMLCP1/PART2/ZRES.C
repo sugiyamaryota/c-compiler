@@ -43,3 +43,21 @@ int *Objptr;
 int *Rec;
 int *Off;
 int Nmod;
+
+int Ixused;
+int Libused;
+int Symused;
+
+int Plotflag;
+int Printflag;
+int Scanflag;
+int Floatflag;
+int Ploadflag;
+int Sloadflag;
+
+int Libfile;
+int Subfile;
+int Objfile;
+
+char Command[128];
+
