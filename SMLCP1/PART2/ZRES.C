@@ -60,4 +60,14 @@ int Subfile;
 int Objfile;
 
 char Command[128];
+main(argc, argv)
+int argc;
+char **argv;
+{
+    char temp[40];
+    int i;
 
+    Symtab = zalloc(SYMSIZE);
+    Libtab = zalloc(LIBSIZE);
+    Index = zalloc(IXSIZE);
+}
