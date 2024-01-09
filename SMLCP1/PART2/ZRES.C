@@ -70,4 +70,19 @@ char **argv;
     Symtab = zalloc(SYMSIZE);
     Libtab = zalloc(LIBSIZE);
     Index = zalloc(IXSIZE);
+
+    if(argc < 4){
+        puts("usage: zres drive libname file1 ...");
+        exit():
+    }
+    if( strchr(argv[2], '.') != 0) {
+        puts("library name should not have extension");
+        exit();
+    }
+    if( (Subfile=fopen("CLIB.SUB","W")) == 0){
+        fprintf(stderr, "unable to open submit file\n");
+        exit();
+    }
+
+    fprintf(Subfile, "zlink %s=", argv[3]);
 }
