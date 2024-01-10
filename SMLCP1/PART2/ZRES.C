@@ -85,4 +85,16 @@ char **argv;
     }
 
     fprintf(Subfile, "zlink %s=", argv[3]);
+
+    i = 2;
+    while(++i < argc) {
+        loadfile(argv[i])
+        fprintf(Subfile, "%s,", argv[i]);
+    }
+    loadfile("iolib");
+    fprintf(Subfile, "IOLIB,CLIB\n");
+
+    strcpy(temp, argv[2]);
+    strcat(temp, ".IDX");
+    read_index(temp);
 }
