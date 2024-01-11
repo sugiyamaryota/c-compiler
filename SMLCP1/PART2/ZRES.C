@@ -97,4 +97,15 @@ char **argv;
     strcpy(temp, argv[2]);
     strcat(temp, ".IDX");
     read_index(temp);
+
+    strcpy(temp, argv[2]);
+    strcat(temp, ".LIB");
+    if((Libfile=fopen(temp, "r")) == 0){
+        fprintf(stderr, "Unable to open library file \n");
+        exit();
+    }
+
+    Plotflag = Printflag = Floating = Ploadflag = FALSE;
+    Scanflag = Sloadflag = FALSE;
+    while( pass() );
 }
