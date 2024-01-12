@@ -108,4 +108,21 @@ char **argv;
     Plotflag = Printflag = Floating = Ploadflag = FALSE;
     Scanflag = Sloadflag = FALSE;
     while( pass() );
+
+    fprintf(Subfile, "era clib.obj\n");
+    if(Plotflag){
+        fprintf(Subfile, "\ngencom %s plot\n", argv[3]);
+    }
+    fprintf(Subfile, "%s\npip %s.COM=m:\nera m:clib.sub\n", argv[1],argv[3]);
+
+    putb(2, Objfile);
+    putb(0, Objfile);
+
+    fclose(Objfile);
+    fclose(Subfile);
+    fclose(Libfile);
+
+    printf("\nSymbol table %d/%d\n", Symused, NUMENT);
+    printf("Library table %d/%d\n", Libused, LIBENT);
+    printf("Index table %d/%d\n", Ixused, IXENT);
 }
