@@ -126,3 +126,30 @@ char **argv;
     printf("Library table %d/%d\n", Libused, LIBENT);
     printf("Index table %d/%d\n", Ixused, IXENT);
 }
+
+pass()
+{
+    int module_loaded;
+    char *cptr;
+    char *lptr;
+    char *mod;
+    int i;
+
+    module_loaded = FALSE;
+    cptr = Symtab - SYMREC;
+    for(i=0;i<NUMENT;++i){
+        cptr += SYMREC;
+        if(cptr[NAME] != 0 && cptr[TYPE] == UNDEFINED){
+            if(strcmp(cptr+NAME, "Q_PRINTF") == 0){
+                Printflag = TRUE;
+                cptr[TYPE] = DEFINED;
+                continue;
+            }
+            if(strcmp(cptr+NAME, "Q_SCANF") == 0){
+                Scanflag = TRUE;
+                cptr[TYPE] = DEFINED;
+                continue;
+            }
+        }
+    }
+}
