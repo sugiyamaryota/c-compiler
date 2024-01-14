@@ -150,6 +150,27 @@ pass()
                 cptr[TYPE] = DEFINED;
                 continue;
             }
+            lptr = search(cptr+NAME,STARTLIB,LIBREC,ENDLIB,LIBENT,LIBNAME);
+            if(lptr == 0 || ptr[LIBNAME] == 0){
+                if( strcmp(cptr+NAME, "_END") != 0){
+                    printf("%s is unresolved\n", cptr+NAME);
+                }
+                cptr[TYPE] = DEFINED;
+            }
+            else {
+                copy_module(lptr[MODULE]);
+                mod = Module[lptr[MODULE]];
+                if(strcmp(mod,"PLOT") == 0)
+                    Ploadflag = TRUE;
+                else if(strcmp(mod,"FLOAT") == 0)
+                    Floatflag = TRUE;
+                else if(strcmp(mod,"PRINTF2") == 0)
+                    Ploadflag = TRUE;
+                else if(strcmp(mod,"SCANF2") == 0)
+                    Sloadflag = TRUE;
+                module_loaded = TRUE;
+            }
         }
     }
+    return module_loaded;
 }
