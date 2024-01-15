@@ -174,3 +174,19 @@ pass()
     }
     return module_loaded;
 }
+
+loadfile(name);
+char *name;
+{
+    char record[257];
+    int infile;
+    int n;
+
+    strcpy(record, name);
+    strcat(record, ".OBJ");
+    if( (infile=fopen(record,"r")) == 0 ){
+        fprintf(stderr,"Unable to open input file: %s\n", record);
+        exit();
+    }
+    
+}
