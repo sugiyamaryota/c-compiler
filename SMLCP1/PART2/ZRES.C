@@ -188,5 +188,31 @@ char *name;
         fprintf(stderr,"Unable to open input file: %s\n", record);
         exit();
     }
-    
+    while( (n=getrec(record, infile)) ){
+        if(record[0] == 4){
+            record[n] = 0;
+            if( (record[1] & 6) == 6){
+                addsym(&record[4], DEFINED);
+            }
+            else if ( !(record[1] & 2)) {
+                addsym(&record[4],UNDEFINED);
+            }
+        }
+    }
+    fclose(infile);
+}
+
+read_index(name);
+char *name;
+{
+    int infile;
+    char temp[80];
+    int last;
+    char *nxtptr;
+    int n,i;
+
+    if((infile=fopen(name,"r")) == 0){
+        puts("cannot open index file");
+        exit();
+    }
 }
