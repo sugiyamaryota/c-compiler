@@ -215,4 +215,24 @@ char *name;
         puts("cannot open index file");
         exit();
     }
+
+    n=0;
+    while(getline(infile,temp) && strlen(temp) != 0){
+        ++n;
+    }
+    Nmod = n;
+    xseek(infile,0,0);
+    Module = zalloc(sizeof(int)*n);
+    Objptr = zalloc(sizeof(int)*n);
+    Rec = zalloc(sizeof(int)*n);
+    Off = zalloc(sizeof(int)*n);
+
+    for(i=0;i<n;++i){
+        Module[i] = alloc(13);
+        if(fscanf(infile,"%s %d %d",Module[i],&Rec[i],&Off[i] != 3)){
+            puts("index read error");
+            exit();
+        }
+    }
+    printf("bytes free: %u\n",avail());
 }
