@@ -235,4 +235,31 @@ char *name;
         }
     }
     printf("bytes free: %u\n",avail());
+
+    getline(infile,temp);
+
+    nxtptr = Index - IXREC;
+    last = 0;
+    while( fscanf(infile, "%s %d", temp, &n) == 2 ){
+        if(abs(n) != last){
+            last = abs(n);
+            nxtptr += IXREC;
+            ++Ixused;
+            Objptr[last-1] = nxtptr;
+        }
+        strcpy(nxtptr+IXNAME, temp);
+        if(n>0) {
+            nxtptr[IXTYPE] = DEFINED;
+            addlib(temp, (n-1));
+        }
+        else
+            nxtptr[IXTYPE] = UNDEFINED;
+        nxtptr += IXREC;
+        ++Ixused;
+        if(Ixused > IXENT -1){
+            printf("index table full\n");
+            exit();
+        }
+    }
+    fclose(infile);
 }
