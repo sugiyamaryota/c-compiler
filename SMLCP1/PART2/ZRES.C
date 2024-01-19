@@ -263,3 +263,31 @@ char *name;
     }
     fclose(infile);
 }
+
+resolve(n);
+int n;
+{
+    char *nxtptr;
+    nxtptr = Objptr[n];
+    while(nxtptr[IXNAME]){
+        addsym(&nxtptr[IXNAME], nxtptr[IXTYPE]);
+        nxtptr += IXREC;
+    }
+}
+
+getrec(ptr,fd);
+char *ptr;
+int fd;
+{
+    int j;
+    int i;
+    i = getb(fd);
+    if( i == 2 || i == -1){
+        return 0;
+    }
+    j = (--i) & 0xff;
+    while(i--) {
+        *ptr++ = getb(fd);
+    }
+    return j;
+}
