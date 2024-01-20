@@ -291,3 +291,40 @@ int fd;
     }
     return j;
 }
+
+addsym(str,type);
+char *str;
+int type;
+{
+    char *cptr;
+    cptr = search(str, STARTTAB, SYMREC, ENDTAB, NUMENT, NAME);
+    if(cptr == 0){
+        puts("symbol table full\n");
+        exit();
+    }
+    if(*cptr != 0){
+        if(type == DEFINED){
+            cptr[TYPE] = DEFINED
+        }
+    }
+    else {
+        strcpy(cptr+NAME, str);
+        cptr[TYPE] = type;
+        ++Symused;
+    }
+}
+
+addlib(str, modx);
+char *str;
+int modx;
+{
+    char *cptr;
+    cptr = search(str, STARTLIB, LIBREC, ENDLIB, LIBENT, LIBNAME);
+    if(cptr == 0){
+        puts("library symbol table full");
+        exit();
+    }
+    strcpy(cptr+LIBNAME, str);
+    cptr[MODULE] = modx;
+    ++Libused;
+}
