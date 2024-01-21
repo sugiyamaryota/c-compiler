@@ -328,3 +328,36 @@ int modx;
     cptr[MODULE] = modx;
     ++Libused;
 }
+
+search(sname,buf,len,end,max,off)
+char *sname;
+char *buf;
+int len;
+char *end;
+int max;
+int off;
+{
+    char *cptr,cptr2;
+    cptr = cptr2 = buf + ( (hash(sname)%(max-1)) * len);
+    while(*cptr != 0){
+        if(strncmp(sname, cptr+off, NAMEMAX) == 0){
+            return cptr;
+        }
+        if( (cptr+=len) >= end){
+            cptr = buf;
+        }
+        if( cptr == cptr2){
+            return 0;
+        }
+    }
+    return cptr;
+}
+
+hash(sname)
+char *sname;
+{
+    int i, c;
+    i = 0;
+    while( (c=*sname++)) i = (i<<2) +c;
+    return abs(i);
+}
