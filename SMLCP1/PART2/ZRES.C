@@ -361,3 +361,34 @@ char *sname;
     while( (c=*sname++)) i = (i<<2) +c;
     return abs(i);
 }
+
+#asm
+qzalloc: pop hl; return address
+    pop bc;      character count
+    push bc
+    push hl
+    push bc;       character count as arg to alloc()
+    call qalloc;   HL points to allocated memory
+    pop bc;        count
+    dec bc; adjust count
+    push hl; save pointer to allocated memory
+    ld (hl),0; start zeroing block
+    ld d,h; DE points on byte after HL
+    ld e,l
+    inc de
+    ldir; zero block
+    pop hl; retrieve block pointer
+    ret
+#endasm
+
+find_module(string)
+char *string;
+{
+    int i;
+    for(i=0; i<Nmod;++i){
+        if(strcmp(Module[i],string) == 0){
+            return i;
+        }
+    }
+    return -1;
+}
