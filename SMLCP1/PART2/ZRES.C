@@ -392,3 +392,37 @@ char *string;
     }
     return -1;
 }
+
+copy_module(modx)
+int modx;
+{
+    int j, i;
+    if(modx == -1)
+        printf("Unable to find module\n");
+    else {
+        resolve(modx);
+        printf("Copying %s\n", Module[modx]);
+        putb(3, Objfile);
+        putb(1, Objfile);
+        putb(0, Objfile);
+        if(xseek(Libfile, Rec[modx], Off[modx]) != 0){
+            fprintf(stderr, "seek failure\n");
+            exit();
+        }
+        while( (i=getb(Libfile)) != 2){
+            if(i == -1) {
+                break;
+            }
+            if( (j=getb(Libfile)) == 1){
+                break;
+            }
+            putb(i--, Objfile);
+            putb(j, Objfile);
+            while( --i){
+                putb(getb(Libfile), Objfile);
+            }
+        }
+        putb(2, Objfile);
+        putb(1, Objfile);
+    }
+}
