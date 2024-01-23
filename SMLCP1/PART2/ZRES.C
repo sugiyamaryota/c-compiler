@@ -426,3 +426,24 @@ int modx;
         putb(1, Objfile);
     }
 }
+
+getline(fd, pointer)
+int fd;
+char *pointer;
+{
+    int ch;
+    while( (ch=getc(fd)) != EOF){
+        if(ch==CR){
+            *pointer = NULL;
+            return TRUE;
+        }
+        else
+            *pointer++ = ch;
+    }
+    *pointer = NULL;
+    return FALSE;
+}
+
+extern _fchk(), _ffcb[], _ffirst[], _flast[], _fnext[];
+
+#define MREAD 22489
