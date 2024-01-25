@@ -447,3 +447,28 @@ char *pointer;
 extern _fchk(), _ffcb[], _ffirst[], _flast[], _fnext[];
 
 #define MREAD 22489
+
+xseek(fd,rec,off)
+int fd, rec, off;
+{
+    int index, *rrn;
+    char *fcb;
+
+    index = fd -5;
+    if(_fchk(index) != MREAD)
+        return -1;
+    fcb = _ffcb[index];
+    rrn = &fcb[33];
+    *rrn = rec;
+    cpm(26,_ffirst[index]);
+    if(cpm(33,fcb)){
+        cpm(26,128);
+        return -1;
+    }
+    cpm(26,128);
+    _fnext[index] = _flast[index];
+    while(off--){
+        getb(fd);
+    }
+    return 0;
+}
