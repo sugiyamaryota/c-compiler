@@ -69,5 +69,44 @@ int argc, *argv;
         fclose(infile);
         ++j;
     }
+    putb(2,libfile);
+    putb(0,libfile);
 
+    fprintf(idxfile,"\n");
+    fclose(libfile);
+
+    strcpy(record, argv[1]);
+    strcat(record,".LIB");
+    if( (libfile=fopen(record,"r")) == 0 ){
+        fprintf(stderr,"unable to open file\n");
+        exit();
+    }
+    Index = alloc(4800);
+
+    i = -1;
+    Undef = 0;
+    while( (n=getrec(record,libfile)) ){
+        if(record[0] == 1){
+            ++i;
+            Undef = 0;
+        }
+        if(record[0] == 4){
+            if((record[1] & 6) == 6){
+                record[n] = 0;
+                fprintf(idxfile,"%s %d\n", &record[4],i+1);
+            }
+            else if((record[1] & 6) == 4){
+                if(!already(&record[4])){
+                    fprintf(idxfile,"%s %d\n", &record[4],-(i+1));
+                    strcpy(&Index[Undef<<4],&record[4]);
+                    if(++Undef>300){
+                        fprintf(stderr,"symbol table overflow");
+                        exit();
+                    }
+                }
+            }
+        }
+    }
+    fclose(libfile);
+    fclose(idxfile);
 }
