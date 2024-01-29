@@ -110,3 +110,34 @@ int argc, *argv;
     fclose(libfile);
     fclose(idxfile);
 }
+
+getrec(ptr,fd);
+char *ptr;
+int fd;
+{
+    int i;
+    int j;
+    i = getb(fd);
+    if(i == 2 || i == -1){
+        return 0;
+    }
+    j = (--i) & oxff;
+    while(i--){
+        *ptr++ = getb(fd);
+    }
+    return j;
+}
+
+already(s);
+char *s;
+{
+    int i;
+    i = 0;
+    while(i < Undef){
+        if(strcmp(s,&Index[i<<4]) == 0){
+            return 1;
+        }
+        ++i;
+    }
+    return 0;
+}
