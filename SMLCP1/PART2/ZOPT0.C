@@ -45,3 +45,53 @@ usage()
     puts("usage: zopt [-c] file\n");
     exit();
 }
+
+main(argc, argv)
+int argc;
+char **argv;
+{
+    char file1[20], file2[20];
+    int i, c;
+    if(argc == 1 || argc > 3){
+        usage();
+    }
+    Compact = FALSE;
+    while( (c=getopt(argc, argv, "C")) != EOR ) {
+        switch(c){
+            case 'C':
+                Compact = TRUE;
+                break;
+            default:
+                usage();
+        }
+    }
+    if( argc-optind != 1 ){
+        usage();
+    }
+    strcpy( file1, argv[optind] );
+    strcat( file1, ".asm" );
+    strcpy( file2, argv[optind] );
+    strcat( file2, ".$$$" );
+
+    if( (Ichan=fopen(file1, "r")) == 0 ){
+        err("cannot open input file");
+        exit();
+    }
+    if( (Ochan=fopen(file2, "w")) == 0 ){
+        err("cannot open output file");
+        exit();
+    }
+    Total = 0;
+
+    init();
+    fclose(Ichan);
+    fclose(Ochan);
+
+    puts("Grand total bytes saved:"); putdec(Total);
+    putchar('\n'); putchar('\n');
+
+    unlink(file1);
+    rename(file2, file1);
+}
+
+extern _newfcb();
