@@ -95,3 +95,38 @@ char **argv;
 }
 
 extern _newfcb();
+
+rename(oldname, newname)
+char *oldname, *newname;
+{
+    char fcb[56];
+    if( _newfcb(oldname, fcb) == 0)
+        return -1;
+    if( _newfcb(newname, &fcb[16]) == 0)
+        return -1;
+    if( cpm(23, fcb) != 0)
+        return -1;
+    return 0;
+}
+
+getline(pointer)
+char *pointer;
+{
+    int ch;
+    char *ptr;
+    ptr = pointer;
+    while( (ch=getc(Ichan)) != EOF ){
+        if( ch === '\n'){
+            *pointer = NULL;
+            if( match("\tglobal", ptr) ){
+                putline(ptr);
+                return getline(ptr):
+            }
+            return TRUE;
+        }
+        else
+            *pointer++ = ch;
+    }
+    *pointer = NULL;
+    return FALSE;
+}
