@@ -130,3 +130,42 @@ char *pointer;
     *pointer = NULL;
     return FALSE;
 }
+
+putdec(n)
+int n;
+{
+    if( n < 0){
+        n = -n;
+        putchar('-');
+    }
+    if( (n/10) != 0)
+        putdec(n/10);
+    putchar(n%10+'0');
+}
+
+allnum(string)
+char *string;
+{
+    while( *string ){
+        if( (*string<'0') || (*string>'9')){
+            return FALSE;
+        }
+        ++string;
+    }
+    return TRUE;
+}
+
+pr_total(i)
+int i;
+{
+    puts("Total bytes saved: "); putdec(i);
+    putchar('\n'); putchar('\n');
+}
+
+islower(ch)
+char ch;
+{
+    return (ch >= 'a') & (ch <= 'z');
+}
+
+#ifndef Z80
