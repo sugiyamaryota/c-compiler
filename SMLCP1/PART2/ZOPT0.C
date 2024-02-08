@@ -169,3 +169,79 @@ char ch;
 }
 
 #ifndef Z80
+
+match(token, input)
+char *token, *input;
+{
+    while(*input++ == *token++);
+    --token;
+    if(*token == NULL)
+        return --input;
+    else
+        return NULL;
+}
+
+#else
+
+#asm
+qmatch:
+    POP BC
+    POP HL;   HL is input
+    POP DE;   DE is token
+    PUSH DE
+    PUSH HL
+    PUSH BC
+match1:
+    LD A,(DE);   fetch *token
+    CP (HL)
+    JR NZ, match2;   return if *token != *input
+    INC HL
+    INC DE
+    JR match1
+match2:
+    OR A
+    RET Z;    return input if *token == NULL
+    LD HL,0;  else return 0
+    RET
+#endasm
+
+#endif
+
+
+#define NUMCONTEXT 6
+
+#define STACKSIZE 1024
+
+int switch_up(), switch_down();
+
+int *sp[NUMCONTEXT+1];
+int current;
+
+switch_up(str)
+char *str;
+{
+#asm
+    ld hl,(qcurrent);       sp[current--] = SP
+    dec hl
+    ld (qcurrent),hl
+    inc hl
+    add hl,hl
+    ex de,hl
+    ld ix,qsp
+    add ix,de;              (IX = &sp[current])
+    ld hl,0
+    add hl,sp
+    ld (ix),l
+    ld (ix+1),l
+    inc hl;                 (DE = str) need to get this before switch
+    inc hl
+    ld e,(hl)
+    inc hl
+    ld d,(hl)
+    ld h,(ix-1);            SP = sp[current]
+    ld h,(ix-2)
+    ld sp,hl
+    ex de,hl;               return str
+    ret
+#endasm
+}
