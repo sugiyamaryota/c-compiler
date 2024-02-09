@@ -245,3 +245,44 @@ char *str;
     ret
 #endasm
 }
+
+
+switch_down(str)
+char *str;
+{
+    if( sp[current+1] == 0 )
+        return 0;
+#asm
+    ld hl,(qcurrent);    sp[current++] = SP
+    inc hl
+    ld (qcurrent), hl
+    dec hl
+    add hl,hl
+    ex de,hl
+    ld ix,qsp
+    add ix,de;       (IX = &sp[current])
+    ld hl,0
+    add hl,sp
+    ld (ix),l
+    ld (ix+1),h
+    inc hl;          (DE = str) need to get this before switch
+    inc hl
+    ld e,(hl)
+    inc hl
+    ld d,(hl)
+    inc hl
+    ld d,(hl)
+    ld l,(ix+2);     SP = sp[current]
+    ld h,(ix+3)
+    ld sp,hl
+    ex de,hl;        return str
+    ret
+#endasm
+}
+
+die()
+{
+    while (switch_down(0));
+        sp[current] = 0;
+        switch_up(0);
+}
