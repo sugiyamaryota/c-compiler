@@ -286,3 +286,48 @@ die()
         sp[current] = 0;
         switch_up(0);
 }
+
+char *p_read();
+p_read(t)
+char *t;
+{
+    char *s;
+    if( (s=switch_up(1)) == 0 ){
+        *t = '\000';
+        return 0;
+    }
+    strcpy(t,s);
+}
+
+c_write(s)
+char *s;
+{
+    switch_down(s);
+}
+
+init()
+{
+    sp[1] = alloc(STACKSIZE) + (STACKSIZE-2*sizeof(int));
+    sp[1][0] = pass1;
+    sp[1][1] = die;
+
+    sp[2] = alloc(STACKSIZE) + (STACKSIZE-2*sizeof(int));
+    sp[2][0] = pass2;
+    sp[2][1] = die;
+
+    sp[3] = alloc(STACKSIZE) + (STACKSIZE-2*sizeof(int));
+    sp[3][0] = pass3;
+    sp[3][1] = die;
+
+    sp[4] = alloc(STACKSIZE) + (STACKSIZE-2*sizeof(int));
+    sp[4][0] = pass4;
+    sp[4][1] = die;
+
+    sp[5] = alloc(STACKSIZE) + (STACKSIZE-2*sizeof(int));
+    sp[5][0] = pass5;
+    sp[5][1] = die;
+
+    sp[6] = 0;
+
+    switch_down(1);
+}
