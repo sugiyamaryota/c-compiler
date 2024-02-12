@@ -20,6 +20,65 @@ pass1()
     getline(last);
     getline(this);
 
-    
+    while( getline(next) ){
+
+        if( strcmp(Pushhl, last) == 0 ){
+            if( strcmp(Popde, next) == 0){
+                if( match(Ldhl,this) ) {
+                    strcpy(last, Exdehl);
+                    getline(next);
+                    ++saved[1];
+                }
+            }
+        }
+
+        if( strcmp(Ldhl0,last) == 0 ){
+            if( strcmp("\tAdd HL,SP", this) == 0 ) {
+                if( strcmp("\tCALL ccgint", next) == 0 ){
+                    strcpy(last, Pophl);
+                    strcpy(this, Pushhl);
+                    getline(next);
+                    ++saved[2];
+                }
+            }
+        }
+
+        if( strcmp(Ldhl2,last) == 0 ){
+            if( strcmp("\tAdd HL,SP", this) == 0 ) {
+                if( strcmp("\tCALL ccgint", next) == 0 ){
+                    c_write(Popbc);
+                    strcpy(last, Pophl);
+                    strcpy(this, Pushhl);
+                    strcpy(next, Pushbc);
+                    ++saved[3];
+                }
+            }
+        }
+
+        if( (tail=match("\tPUSH", this)) ){
+            if( (tail2=match("\tPOP", next)) ) {
+                if( strcmp(tail, tail2) == 0 ){
+                    getline(this);
+                    getline(next);
+                    ++saved[0];
+                }
+            }
+        }
+
+        if( strcmp("\tCALL dload", this) == 0 ){
+            if( strcmp("\tCALL dpush", next) == 0 ) {
+                strcpy(this, "\tCALL dpush")
+                getline(next);
+                ++saved[4];
+            }
+        }
+
+        c_write(last);
+        temp = last;
+        last = this;
+        this = next;
+        next = temp;
+        if (cpm(CONIN, 255) == CTRLC) exit()
+    }
 
 }
