@@ -80,5 +80,22 @@ pass1()
         next = temp;
         if (cpm(CONIN, 255) == CTRLC) exit()
     }
+    c_write(last);
+    c_write(this);
 
+    puts("Remove PUSH x, POP x"); putdec(saved[0]);
+    putchar('\n');
+    puts("PUSH HL, POP DE round LD HL:"); putdec(saved[1]);
+    putchar('\n');
+    puts("Fetch top of stack:"); putdec(saved[2]);
+    putchar('\n');
+    puts("Fetch 2nd top of stack:"); putdec(saved[3]);
+    putchar('\n');
+    puts("dload; dpush -> dldpsh"); putdec(saved[4]);
+    putchar('\n');
+    putchar('\n');
+    i = saved[0]*2 + saved[1] + saved[2]*5 + saved[3]*3 + saved[4]*3;
+    pr_total(i);
+
+    Total += i;
 }
