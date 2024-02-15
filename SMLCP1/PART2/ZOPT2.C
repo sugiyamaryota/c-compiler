@@ -47,7 +47,46 @@ pass2()
                     c_write(Popde);
                     c_write(Popbc);
                 }
+                else if ( strcmp(Ldhl4, ln1) == 0){
+                    c_write(Popde);
+                    c_write(Popbc);
+                }
+                else if ( strcmp(Ldhl2,ln1) == 0 ) {
+                    c_write(Popbc);
+                }
+                c_write(Pophl);
+                c_write(ln5);
+                if( strcmp(Ldhl6, ln1) == 0 ) {
+                    c_write(Pushhl);
+                    c_write(Pushbc);
+                    c_write(Pushde);
+                    strcpy(ln1,Pushix);
+                    ++saved[3];
+                }
+                else if ( strcmp(Ldhl4,ln1) == 0 ) {
+                    c_write(Pushhl);
+                    c_write(Pushbc);
+                    strcpy(ln1,Pushde);
+                    ++saved[2];
+                }
+                else if( strcmp(Ldhl2,ln1) == 0 ) {
+                    c_write(Pushhl);
+                    strcpy(ln1,Pushbc);
+                    ++saved[1];
+                }
+                else {
+                    strcpy(ln1,Pushhl);
+                    ++saved[0];
+                }
+                p_read(ln2);
+                p_read(ln3);
+                p_read(ln4);
+                p_read(ln5);
+                p_read(ln6);
             }
         }
+
+
+
     }
 }
