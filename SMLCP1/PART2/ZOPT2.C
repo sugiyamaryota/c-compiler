@@ -86,7 +86,39 @@ pass2()
             }
         }
 
+        if(strcmp(Exdehl,ln1) == 0 &&
+            (arg=match(Ldhl,ln2)) &&
+            (strcmp("\tCALL cceq",ln3) == 0 || strcmp("\tCALL ccne",ln3) == 0 ))
 
+        if(strcmp("\tLD A,H",ln4) == 0 &&
+            strcmp("\tOR L",ln5) == 0 &&
+            ((tail=match("\tJP NZ,", ln6)) || (tail=match("\tJP Z,",ln6)))) {
+            if( (i=chk_arg(arg)) != 0){
+                if(strcmp("\tCALL cceq",ln3) == 0) {
+                    if(match("\tJP NZ,",ln6)){
+                        strcpy(line,"\tJP Z,");
+                    }
+                    else {
+                        strcpy(line,"\tJP NZ,");
+                    }
+                    strcat(line,tail);
+                    strcpy(ln6,line);
+                }
+                temp = ln1;
+                temp2 = ln2;
+                temp3 = ln3;
+                ln1 = ln4;
+                ln2 = ln5;
+                ln3 = ln6;
+                ln4 = temp;
+                ln5 = temp2;
+                ln6 = temp3;
+                p_read(ln4);
+                p_read(ln5);
+                p_read(ln6);
+                ++saved[3+i];
+            }
+        }
 
     }
 }
