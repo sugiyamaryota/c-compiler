@@ -120,5 +120,34 @@ pass2()
             }
         }
 
+        if( strcmp("\tLD A,H",ln1) == 0 ){
+            if( strcmp("\tOR L",ln2) == 0 ){
+                if( match("\tJP NZ,",ln3)){
+                    if( strcmp(Ldhl0,ln4) == 0 ){
+                        temp = ln4;
+                        ln4 = ln5;
+                        ln5 = ln6;
+                        ln6 = temp;
+                        p_read(ln6);
+                        ++saved[9]
+                    }
+                }
+            }
+        }
+
+        if( strcmp(Pophl,ln3) == 0 ) {
+            if( strcmp(Pushhl,ln4) == 0 ) {
+                if( strcmp(Popbc,ln5) == 0 ) {
+                    if( strcmp(Ret,ln6) == 0 ) {
+                        strcpy(ln4,Ret);
+                        p_read(ln5);
+                        p_read(ln6);
+                        ++saved[10]
+                    }
+                }
+            }
+        }
+
+
     }
 }
