@@ -148,6 +148,35 @@ pass2()
             }
         }
 
+        if( strcmp(Pophl,ln2) == 0 ) {
+            if( strcmp(Pushhl,ln3) == 0 ) {
+                if( strcmp(Popbc,ln4) == 0 ) {
+                    if( strcmp(Ret,ln5) == 0 ) {
+                        if( strcmp(Ret,ln6) == 0 ) {
+                            strcpy(ln3, Popbc);
+                            strcpy(ln4,Ret);
+                            p_read(ln5);
+                            p_read(ln6);
+                            ++saved[11]
+                        }
+                    }
+                }
+            }
+        }
 
+        c_write(ln1);
+        temp = ln1;
+        ln1 = ln2;
+        ln2 = ln3;
+        ln3 = ln4;
+        ln4 = ln5;
+        ln5 = ln6;
+        ln6 = temp3;
+        if(cpm(CONIN,255) == CTRLC) exit();
     }
+    c_write(ln1);
+    c_write(ln2);
+    c_write(ln3);
+    c_write(ln4);
+    c_write(ln5);
 }
