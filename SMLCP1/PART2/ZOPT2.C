@@ -179,4 +179,42 @@ pass2()
     c_write(ln3);
     c_write(ln4);
     c_write(ln5);
+
+    puts("INC or DEV top fo stack"); putdec(saved[0]);
+    putchar('\n');
+    puts("INC or DEV 2nd top fo stack"); putdec(saved[1]);
+    putchar('\n');
+    puts("INC or DEV 3rd top fo stack"); putdec(saved[2]);
+    putchar('\n');
+    puts("INC or DEV 4th top fo stack"); putdec(saved[3]);
+    putchar('\n');
+    puts("Test for == or != zero"); putdec(saved[4]);
+    putchar('\n');
+    puts("Test for == or != +/-1"); putdec(saved[5]);
+    putchar('\n');
+    puts("Test for == or != +/-2"); putdec(saved[6]);
+    putchar('\n');
+    puts("Test for == or != +/-3"); putdec(saved[7]);
+    putchar('\n');
+    puts("Test for == or != constant"); putdec(saved[8]);
+    putchar('\n');
+    puts("LD HL,0 when HL is zero"); putdec(saved[9]);
+    putchar('\n');
+    puts("Return TOS, one item on stack"); putdec(saved[10]);
+    putchar('\n');
+    puts("Return TOS, two on stack"); putdec(saved[11]);
+    putchar('\n');
+    putchar('\n');
+    i = saved[0]*9 + saved[1]*7 + saved[2]*5 + saved[3];
+    i += saved[4]*7 + saved[5]*6 + saved[6]*5 + saved[7]*4;
+    i += saved[8]*3 + saved[9]*3 + saved[10]*2 + saved[11]*2;
+    pr_total(i);
+
+    Total += i;
+}
+
+chk_arg(arg);
+char *arg;
+{
+    
 }
