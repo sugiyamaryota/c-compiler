@@ -216,5 +216,55 @@ pass2()
 chk_arg(arg);
 char *arg;
 {
-    
+    char temp[80], *sign;
+    int i;
+
+    i = 0;
+    if( arg[1] == 0 ) {
+        switch (arg[0])
+        {
+        case '3':
+            ++i;
+            c_write(Dechl);
+        case '2':
+            ++i;
+            c_write(Dechl);
+        case '1':
+            ++i;
+            c_write(Dechl);
+        case '0':
+            ++i;
+            return i;
+        }
+    }
+    else if(arg[0] == '-' && arg[2] == 0){
+        switch (arg[1])
+        {
+        case '3':
+            ++i;
+            c_write(Inchl);
+        case '2':
+            ++i;
+            c_write(Inchl);
+        case '1':
+            i += 2;
+            c_write(Inchl);
+            return i;
+        }
+    }
+
+    sign = "-";
+    if(arg[0] == '-'){
+        sign = "";
+        ++arg;
+    }
+    if( allnum(arg)){
+        strcpy(temp, Ldde);
+        strcat(temp, sign);
+        strcat(temp, arg);
+        c_write(temp);
+        c_write(Addhlde);
+        return 5;
+    }
+    return 0;
 }
