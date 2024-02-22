@@ -71,5 +71,69 @@ pass3()
                 }
             }
         }
+
+        if( strcmp(Exdehl,last) == 0 ){
+            if(strcmp(Exdehl,this) == 0){
+                temp = last;
+                last = next;
+                next = temp;
+                p_read( this );
+                p_read( next );
+                ++saved[0];
+            }
+        }
+
+        if( strcmp("\tCALL ccgint",last) == 0 ){
+            if( strcmp(Exdehl,this) == 0 ){
+                if( match(Ldhl,next) |
+                strcmp(Pophl,next) == 0){
+                    c_write("\tLD E,(HL)");
+                    strcpy(last, Inchl);
+                    strcpy(this, "\tLD D,(HL)");
+                    ++saved[3];
+                }
+            }
+        }
+
+        if( Compact == 0 ){
+            if( strcmp("\tCALL ccgint",last) == 0 ){
+                c_write("\tLD A,(HL)");
+                c_write(Inchl);
+                c_write("\tLD H,(HL)");
+                strcpy(last,"\tLD L,A");
+                --saved[4];
+            }
+            if( strcmp("\tCALL ccgchar",last) == 0 ){
+                if(strcmp(Exdehl,this) == 0){
+                    if(match(Ldhl,next) ||
+                    strcmp(Pophl,next) == 0){
+                        c_write("\tLD A,(HL)");
+                        c_write("\tLD E,A");
+                        c_write("\tRLCA");
+                        strcpy(last,"\tSBC A,A");
+                        strcpy(this,"\tLD D,A");
+                        --saved[6];
+                    }
+                }
+            }
+            if(strcmp("\tCALL ccgchar",last) == 0){
+                c_write("\tLD A,(HL)");
+                c_write("\tLD L,A");
+                c_write("\tRLCA");
+                c_write("\tSBC A,A");
+                strcpy(last,"\tLD A,A");
+                --saved[7];
+            }
+        }
+
+        c_write( last );
+        temp = last;
+        last = this;
+        this = next;
+        next = temp;
+        if( cpm(CONIN,255) == CTRLC ) exit();
+
     }
+    c_write(last);
+    c_write(this);
 }
