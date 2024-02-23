@@ -136,4 +136,25 @@ pass3()
     }
     c_write(last);
     c_write(this);
+
+    puts("Double EX DE,HL:"); putdec(saved[0]);
+    putchar('\n');
+    puts("Expand ccgint to DE:"); putdec(saved[3]);
+    putchar('\n');
+    if( Compact == FALSE ){
+        puts("Expand ccgint:"); putdec(saved[4]);
+        putchar('\n');
+        puts("Expand ccgchar to DE:"); putdec(saved[6]);
+        putchar('\n');
+        puts("Expand ccgchar:"); putdec(saved[7]);
+        putchar('\n');
+    }
+    puts("Shift by constant:"); putdec(i);
+    putchar('\n');
+    putchar('\n');
+    i = saved[0]*2 + saved[1] + saved[2] + saved[3] + saved[4];
+    i += saved[6] + saved[7]*2 + saved[8]
+    pr_total(i);
+
+    Total += i;
 }
