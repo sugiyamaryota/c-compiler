@@ -48,3 +48,25 @@ char **next;
         }
     }
 }
+
+pass4()
+{
+    int i, saved[7];
+    char source1[20], source2[20], dest1[20], dest2[20];
+    char line[LINELEN];
+    char *tail, *tail2, *temp;
+    char *last, *this, *next;
+
+    switch_down(1);
+    saved[0] = saved[1] = saved[2] = saved[3] = saved[4] = 0;
+    saved[5] = saved[6] = 0;
+
+    last = alloc(LINELEN);
+    this = alloc(LINELEN);
+    next = alloc(LINELEN);
+
+    p_read(last);
+    p_read(this);
+
+    
+}
