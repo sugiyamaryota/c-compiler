@@ -68,5 +68,40 @@ pass4()
     p_read(last);
     p_read(this);
 
-    
+    while( p_read(next) ){
+        if( tail=match(Ldhl,last) ){
+            if( strcmp(Exdehl, this) == 0 ){
+                if( match(Ldhl,next) ){
+                    if( *tail != '(' ){
+                        strcpy(line, Ldde);
+                        strcat(line, tail);
+                        strcpy(last, line);
+                        temp = this;
+                        this = next;
+                        next = temp;
+                        p_read(next);
+                        ++saved[0];
+                    }
+                }
+            }
+        }
+
+        jumps("\tJP Z", "\tJP", "\tJP NZ", &saved[1], &last, &this, &next);
+
+        jumps("\tJP NZ", "\tJP", "\tJP Z", &saved[1], &last, &this, &next);
+
+        if( tail=match("\tLD",this) ){
+            if(tail2=match("\tLD", next)){
+                uncomma(tail, dest1, source1);
+                uncomma(tail2, dest2, source2);
+                if( strcmp(dest1,source2) == 0 ){
+                    if( strcmp(dest2,source1) == 0 ){
+                        p_read(next);
+                        ++saved[2];
+                    }
+                }
+            }
+        }
+
+    }
 }
