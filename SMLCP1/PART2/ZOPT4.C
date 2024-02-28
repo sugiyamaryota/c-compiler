@@ -103,5 +103,39 @@ pass4()
             }
         }
 
+        jumps("\tJP Z", "\tCALL", "\tCALL NZ", &saved[3], &last, &this, &next);
+
+        jumps("\tJP NZ", "\tCALL", "\tCALL Z", &saved[3], &last, &this, &next);
+
+        if( tail=match("\tJP", this) ){
+            if(islower(*tail)){
+                if(match("\tJP",next)){
+                    if(islower(*tail)){
+                        p_read(next);
+                        ++saved[4];
+                    }
+                }
+            }
+        }
+
+        if( tail=match("\tCALL", this) ){
+            if(strcmp("\tRET",next) == 0){
+                if(*tail == 'q'){
+                    strcpy(line, "\tJP");
+                    strcat(line, tail);
+                    strcpy(this, line);
+                    p_read(next);
+                    ++saved[5];
+                }
+            }
+        }
+
+        c_write(last);
+        temp = last;
+        last = this;
+        this = next;
+        next = temp;
+        if (cpm(CONIN, 255) == CTRLC) exit();
+
     }
 }
