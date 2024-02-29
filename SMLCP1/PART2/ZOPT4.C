@@ -138,4 +138,25 @@ pass4()
         if (cpm(CONIN, 255) == CTRLC) exit();
 
     }
+    c_write(last);
+    c_write(this);
+
+    puts("LD HL;EX;LD HL > LD DE;LD HL: "); putdec(saved[0]);
+    putchar('\n');
+    puts("JP Z/NZ round JP: "); putdec(saved[1]);
+    putchar('\n');
+    puts("JP Z/NZ round CALL: "); putdec(saved[3]);
+    putchar('\n');
+    puts("Store followed by load: "); putdec(saved[2]);
+    putchar('\n');
+    puts("Two unconditional jumps: "); putdec(saved[4]);
+    putchar('\n');
+    puts("CALL; RET -> JP: "); putdec(saved[5]);
+    putchar('\n');
+    putchar('\n');
+    i = saved[0] + saved[1]*3 + saved[2]*2 + saved[3]*3 + saved[4]*3
+    i += saved[5];
+    pr_total(i);
+
+    Total += i;
 }
