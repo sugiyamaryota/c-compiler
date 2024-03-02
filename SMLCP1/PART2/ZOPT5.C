@@ -34,6 +34,47 @@ pass5()
     p_read(l9);
 
     while(p_read(l10)) {
-        
+        saved[0] += jp_ret("\tJP Z,", "\tRET NZ");
+        saved[0] += jp_ret("\tJP NZ,", "\tRET Z");
+
+        if( (tail=match("\tJP Z,",l1)) || (tail=match("\tJP NZ,", l1)) ||
+           (tail=match("\tJP", l1))  ){
+            if( (tail2=match(tail,l3)) || (tail2=match(tail,l4)) ||
+                (tail2=match(tail,l5)) || (tail2=match(tail,l6)) ||
+                (tail2=match(tail,l7)) || (tail2=match(tail,l8)) ||
+             (tail2=match(tail,l9)) || (tail2=match(tail,l10)) ){
+                if(tail2[0] == ':'){
+                    l1[2] = 'R';
+                    ++saved[1];
+                }
+            }
+        }
+
+        if( (tail=match("\tJP Z,",l10)) || (tail=match("\tJP NZ,",l10)) || 
+                (tail=match("\tJP ",l10))){
+            if( (tail2=match(tail,l8)) || (tail2=match(tail,l7)) ||
+                (tail2=match(tail,l6)) || (tail2=match(tail,l5)) ||
+                (tail2=match(tail,l4)) || (tail2=match(tail,l3)) ||
+                (tail2=match(tail,l2)) || (tail2=match(tail,l1)) ){
+                if( tail2[0] == ':' ){
+                    l10[2] = 'R';
+                    ++saved[1];
+                }
+            }
+        }
+
+        putline(l1);
+        temp = l1;
+        l1 = l2;
+        l2 = l3;
+        l3 = l4;
+        l4 = l5;
+        l5 = l6;
+        l6 = l7;
+        l7 = l8;
+        l8 = l9;
+        l9 = l10;
+        l10 = temp;
+        if(cpm(CONIN, 255) == CTRLC) exit();
     }
 }
