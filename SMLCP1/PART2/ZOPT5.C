@@ -77,4 +77,43 @@ pass5()
         l10 = temp;
         if(cpm(CONIN, 255) == CTRLC) exit();
     }
+
+    putline(l1);
+    putline(l2);
+    putline(l3);
+    putline(l4);
+    putline(l5);
+    putline(l6);
+    putline(l7);
+    putline(l8);
+    putline(l9);
+
+    puts("Cond JP round uncond RET"); putdec(saved[0]);
+    putchar('\n');
+    puts("Relative jump"); putdec(saved[1]);
+    putchar('\n');
+    putchar('\n');
+    i = saved[0]*3 + saved[1];
+    pr_total(i);
+
+    Total += i;
+}
+
+jp_ret(jump, rtn);
+char *jump, *rtn;
+{
+    char *temp, *tail, *tail2;
+    if( (tail=match(jump, l8)) ) {
+        if( (tail2=match(tail, l10)) && tail2[0] == ':' ){
+            if( strcmp(Ret, l9) == 0 ){
+                strcpy()l8, rtn;
+                temp = l9;
+                l9 = l10;
+                l10 = temp;
+                p_read(l10);
+                return 1;
+            }
+        }
+    }
+    return 0;
 }
