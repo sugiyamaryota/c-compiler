@@ -17,4 +17,25 @@ QIFIX:  CALL QFLOOR         ;take floor first
     CP 80H+16
     JP M,IFIX5  ;m => fabs(fa) < 32768
     JP NZ,OFLOW ;nz => fabs(fa) > 32768
-            (overflow)
+;            (overflow)
+    LD A,H
+    CP 80H
+    JP NZ,OFLOW ;nz => fa isn't -32768
+    LD A,L
+    OR A
+    JP NZ,OFLOW ;nz => overflow
+    RET         ; return -32768
+;
+IFIX5: SET 7,H  ; restore hidden bit
+IFIX6: SRL H    ; shft right (0 fill)
+    RR L        ; shift right (cy fill)
+    INC A
+    CP 16+80H
+    JR NZ,IFIX6 ;nz => haven't shifted enough
+    RL C
+    RET NC      ;nz=> posive number
+    EX DE,HL
+    LD HL,1     ;compenstate for cy bit
+    SBC HL,DE   ;negate result
+    RET
+#endasm
