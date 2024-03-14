@@ -24,3 +24,34 @@ int args;
     _String = *nxtarg;
     return( _printf(stdin, --nxtarg));
 }
+
+itod(nbr, str, sz)
+int nbr;
+char str[];
+int sz;
+{
+    char sgn;
+    if(nbr < 0){
+        nbr = -nbr;
+        sgn = '-';
+    }
+    else
+        sgn = ' ';
+    if(sz > 0)
+        str[--sz] = NULL;
+    else if(sz < 0)
+        sz = -sz;
+        else
+            while(str[sz] != NULL)
+                ++sz;
+    while(sz) {
+        str[--sz] = nbr % 10 + '0';
+        if((nbr/=10) == 0)
+            break;
+    }
+    if(sz)
+        str[--sz] = sgn;
+    while(sz>0)
+        str[--sz] = ' ';
+    return str;
+}
