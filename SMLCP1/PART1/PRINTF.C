@@ -55,3 +55,32 @@ int sz;
         str[--sz] = ' ';
     return str;
 }
+
+itox(nbr, str, sz)
+int nbr;
+char str[];
+int sz;
+{
+    int digit, offset;
+        if(sz > 0)
+        str[--sz] = NULL;
+    else if(sz < 0)
+        sz = -sz;
+        else
+            while(str[sz] != NULL)
+                ++sz;
+    while(sz) {
+        digit = nbr & 15;
+        nbr = ( nbr >> 4) & 0xfff;
+        if (digit < 10)
+            offset = 48;
+        else
+            offset = 55;
+        str[--sz] = digit + offset;
+        if(nbr == 0)
+            break;
+    }
+    while(sz)
+        str[--sz] = ' ';
+    return str;
+}
