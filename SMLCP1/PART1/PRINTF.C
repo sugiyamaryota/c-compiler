@@ -84,3 +84,14 @@ int sz;
         str[--sz] = ' ';
     return str;
 }
+
+_outc(c,fd)
+char c;
+int fd;
+{
+    if(_String == NULL)
+        putc(c,fd);
+    else
+        *_String++ = c;
+    ++_Count;
+}
