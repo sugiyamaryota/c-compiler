@@ -13,4 +13,15 @@ QRAND:
     LD DE,0
     CALL FADD
     CALL LDBCFA
+    LD A,E
+    LD E,C
+    LD C,A
+    LD HL,FASIGN
+    LD (HL),80H
+    DEC HL
+    LD B,(HL)
+    LD (HL),80H
+    CALL NORM
+    LD HL,SEED
+    JP DSTORE
 #endasm
