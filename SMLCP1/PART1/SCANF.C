@@ -31,3 +31,32 @@ int args;
     _String1 = *nxtarg;
     return(_scanf(stdout, --nxtarg));
 }
+
+_getc(fd)
+int fd;
+{
+    int c;
+    if(_Oldch != EOR){
+        c = _Oldch;
+        _Oldch = EOF;
+        return c;
+    }
+    else {
+        if(_String1 != NULL){
+            if((c=*_String1++)) return c;
+            else{
+                --_String1;
+                return EOR;
+            }
+        }
+        else {
+            return getc(fd);
+        }
+    }
+}
+
+_ungetc(ch)
+int ch;
+{
+    _Oldch = ch;
+}
