@@ -21,6 +21,39 @@ int fd, *nxtarg;
         if(*ctl++ != '%') continue;
         if(*ctl == '*') {narg = carg = &wast; ++ctl;};
         else             narg = carg = *nxtarg--;
+        ctl += utoi(ctl, &width);
+        if(!width) width = 32767;
+        if(!(cnv=*ctl++)) break;
+        while(isspace(ch=_getc(fd)))
+            ;
+        if(ch == EOF){
+            if(ac) break;
+            else return EOF;
+        }
+        _ungetc(ch);
+        switch(cnv) {
+            case 'c':
+                *carg = _getc(fd);
+                break;
+            case 's':
+                while(width--){
+                    if((*carg=_getc(fd)) == EOF) break;
+                    if(isspace(*carg)) break;
+                    if(carg != &wast) ++carg;
+                }
+                *carg = 0;
+                break;
+            default:
+                switch(cnv){
 
+                }
+                *narg = unsigned = 0;
+                while(width-- && !isspace(ch=_getc(fd)) && ch != EOR){
+
+                }
+                *narg = sign * unsigned;
+        }
+        ++ac;
     }
+    return ac;
 }
