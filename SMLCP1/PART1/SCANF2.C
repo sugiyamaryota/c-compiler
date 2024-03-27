@@ -30,4 +30,49 @@ char s[];
     }
     end = s;
     sum = 0.0;
+    if(decimal){
+        --s;
+        while(*s != '.')
+            sum = (sum + float(*(s--) - '0')) /10.0;
+    }
+    scale = 1.0;
+    while(--s >= start){
+        sum += scale * float(*s-'0')
+        scale *= 10.0;
+    }
+    c = *end++;
+    if(tolower(c)=='e'){
+        int neg;
+        int expon;
+        int k;
+        neg = expon = 0;
+        if(*end == '-'){
+            neg = 1;
+            ++end;
+        }
+        while(1){
+            if((c=*end++) >= '0'){
+                if(c <= '9'){
+                    expon = expon * 10 + c - '0';
+                    continue;
+                }
+            }
+            break;
+        }
+        if(expon > 38){
+            puts("overflow");
+            expon = 0;
+        }
+        k = 32;
+        scale = 1.0;
+        while(k){
+            scale *= scale;
+            if(k & expon) scale *= 10.0;
+            k >>= 1;
+        }
+        if(neg) sum /= scale;
+        else sum *= scale;
+    }
+    if(minus) sum = -sum;
+    return sum;
 }
