@@ -76,3 +76,31 @@ char s[];
     if(minus) sum = -sum;
     return sum;
 }
+
+_scanf(fd,nxtarg)
+int fd, *nxtarg;
+{
+    char *carg, *ctl, *unsigned, fstr[40];
+    int *narg, wast, ac, width, ch, cnv, base, ovfl, sign;
+    double *farg;
+
+    _Oldch = EOR;
+    ac = 0;
+    ctl = *nxtarg--;
+    while(*ctl){
+        if(isspace(*ctl)) {++ctl;continue;}
+        if(*ctl++ != '%') continue;
+        if(*ctl == '*') {farg = narg = carg = &wast; ++ctl;}
+        else             farg = narg = carg = *nxtarg--;
+        ctl += utoi(ctl, &width);
+        if(!width) width = 32767;
+        if(!(cnv=*ctl++)) break;
+        while(isspace(ch=_getc(fd)))
+            ;
+        if(ch == EOR){
+            if(ac) break;
+            else return EOR;
+        }
+        _ungetc(ch);
+    }
+}
