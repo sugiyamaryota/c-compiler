@@ -102,5 +102,47 @@ int fd, *nxtarg;
             else return EOR;
         }
         _ungetc(ch);
+        switch(cnv){
+            case 'c':
+                *carg = _getc(fd);
+                break;
+            case 's':
+                while(width--){
+                    if( (*carg=_getc(fd)) == EOF ) break;
+                    if( isspace(*carg) ) break;
+                    if( carg != &wast ) ++carg;
+                }
+                *carg = 0;
+                break;
+            case 'e':
+            case 'f':
+                if (width > 39) width = 39;
+                _getf(fstr, fd, width);
+                *farg = atof(fstr);
+                break;
+            default:
+                switch(cnv){
+                    case 'd' : base = 10; sign = 0; ovfl = 3276; break;
+                    case 'o' : base =  8; sign = 1; ovfl = 8191; break;
+                    case 'u' : base = 10; sign = 1; ovfl = 6553; break;
+                    case 'x' : base = 16; sign = 1; ovfl = 4095; break;
+                    default: return ac;
+                }
+                *narg = unsigned = 0;
+                while( width-- && !isspace(ch=_getc(fd)) && ch != EOR ) {
+                    if(!sign)
+                        if (ch == '-') { sign = -1; continue; }
+                        else sign = 1;
+                    if ( ch < '0') return ac;
+                    if ( ch >= 'a') ch -= 87;
+                    else if ( ch >= 'A') ch -= 55;
+                    else ch -= '0';
+                    if(ch >= base || unsigned > ovfl) return ac;
+                    unsigned = unsigned * base + ch;
+                }
+                *narg = sign * unsigned;
+        }
+        ++ac;
     }
+    return ac;
 }
