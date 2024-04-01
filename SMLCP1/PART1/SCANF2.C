@@ -146,3 +146,52 @@ int fd, *nxtarg;
     }
     return ac;
 }
+
+_getf(s,fd,width)
+char *s;
+int fd;
+int width;
+{
+    int i;
+    i = 1;
+    *s = _getc(fd);
+    if( isdigit(*s) || *s == '-' || *s == '.'){
+        if (*s != '.') {
+            while(isdigit(*++s=_getc(fd))){
+                if(++i > width){
+                    _ungetc(*s);
+                    *s = NULL;
+                    return;
+                }
+            }
+        }
+        if(*s == '.'){
+            while(isdigit(*++s=_getc(fd))){
+                if(++i > width){
+                    _ungetc(*s);
+                    *s = NULL;
+                    return;
+                }
+            }
+        }
+        if(tolower(*s) == 'e'){
+            *++s = _getc(fd);
+            if(++i > width){
+                _ungetc(*s);
+                *s = NULL;
+                return;
+            }
+            if(isdigit(*s) || *s == '-'){
+                while(isdigit(*++s=_getc(fd))){
+                    if(++i > width){
+                        _ungetc(*s);
+                        *s = NULL;
+                        return;
+                    }
+                }
+            }
+        }
+    }
+    _ungetc(*s);
+    *s = NULL;
+}
