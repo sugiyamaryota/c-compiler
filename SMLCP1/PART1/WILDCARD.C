@@ -36,3 +36,27 @@ char *spec;
     _file[i] = 0;
     return _file;
 }
+
+_store(offset, num)
+int offset;
+int *num;
+{
+    char *name;
+    char *ptr;
+    int i;
+    name = _dma + (offset << 5) +1;
+    ptr = alloc(13);
+    _file[*num] = ptr;
+    *num += 1;
+    for( i=0; i<12; ++i){
+        if(i != 8){
+            if(*name != ' ')
+                *ptr++ = *name++ & 0x7f;
+            else
+                ++name;
+        }
+        else
+            *ptr++ = '.';
+    }
+    *ptr = 0;
+}
