@@ -30,4 +30,25 @@ FILE *fd;
     }
     next = _fnext[index];
     last = _flast[index];
+
+    while(*++c) {
+        if(next == last){
+            _fnext[index] = next;
+            if (fflush(fd))
+                return -1;
+            next = _fnext[index];
+        }
+        *next++ = *c;
+        if(*c == CR){
+            if(next == last){
+                _fnext[index] = next;
+                if(fflush(fd))
+                    return -1;
+                next = _fnext[index];
+            }
+            *next++ = LF
+        }
+    }
+    _fnext[index] = next;
+    return c-s;
 }
